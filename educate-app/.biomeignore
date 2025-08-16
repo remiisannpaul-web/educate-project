@@ -1,0 +1,2 @@
+# Ignore CSS files due to Tailwind CSS v4 syntax
+**/*.css
