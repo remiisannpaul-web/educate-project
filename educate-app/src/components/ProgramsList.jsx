@@ -1,25 +1,24 @@
-// This is a Server Component (no "use client" directive)
+import Link from "next/link";
+
 
 async function getPrograms() {
   try {
-    // Using Next.js API route
-    const response = await fetch('http://localhost:3000/api/programs', {
-      cache: 'no-store' // or 'force-cache' for static data
-    });
-    
-    if (!response.ok) {
-      throw new Error('Failed to fetch programs');
+    const res = await fetch("http://localhost:3000/api/programs", {
+      cache: "no-store",
+    }); // changed
+    if (!res.ok) {
+      throw new Error("Failed to fetch programs");
     }
-    
-    return response.json();
-  } catch (error) {
-    console.error('Error fetching programs:', error);
+    return res.json();
+  } catch (e) {
+    console.error("Error fetching programs:", e);
     return [];
   }
 }
 
+
 export default async function ProgramsList() {
-  const programs = await getPrograms();
+  const programs = await getPrograms()
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
@@ -50,9 +49,13 @@ export default async function ProgramsList() {
               <span className="text-blue-600 font-semibold">
                 ${program.price}
               </span>
-              <button type="button" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
+              <Link
+                target="_blank"
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+                href={`/programs/${program._id}`}
+              >
                 Learn More
-              </button>
+              </Link>
             </div>
           </div>
         ))

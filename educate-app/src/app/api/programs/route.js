@@ -1,22 +1,19 @@
-import clientPromise from '@/lib/mongodb';
+import { connectDB } from "@/lib/mongodb";
+import Program from "@/models/program";
 
 export async function GET() {
   try {
-    const client = await clientPromise;
-    const db = client.db("educate"); // Replace with your database name
+    await connectDB();
+    console.log("Database connected successfully");
     
-    // Get programs from the 'programs' collection
-    const programs = await db
-      .collection("programs")
-      .find({})
-      .sort({ createdAt: -1 })
-      .toArray();
-
+    const programs = await Program.find({}).sort({ createdAt: -1 });
+    console.log("Found programs:", programs.length);
+    
     return Response.json(programs);
   } catch (error) {
-    console.error('Database error:', error);
+    console.error("Database error:", error);
     return Response.json(
-      { error: 'Failed to fetch programs' },
+      { error: "Failed to fetch programs", details: error.message },
       { status: 500 }
     );
   }
@@ -24,28 +21,25 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const client = await clientPromise;
-    const db = client.db("educate");
-    
+    await connectDB();
     const body = await request.json();
     
-    // Add timestamp
-    const program = {
+    const program = new Program({
       ...body,
       createdAt: new Date(),
-      updatedAt: new Date()
-    };
+      updatedAt: new Date(),
+    });
     
-    const result = await db.collection("programs").insertOne(program);
+    const result = await program.save();
     
     return Response.json(
-      { message: 'Program created successfully', id: result.insertedId },
+      { message: "Program created successfully", id: result._id },
       { status: 201 }
     );
   } catch (error) {
-    console.error('Database error:', error);
+    console.error("Database error:", error);
     return Response.json(
-      { error: 'Failed to create program' },
+      { error: "Failed to create program", details: error.message },
       { status: 500 }
     );
   }

@@ -5,8 +5,7 @@ export default function ProgramsPage() {
     <div className="min-h-screen bg-gradient-to-b from-blue-900 to-black bg-gray-50">
       {/* Header */}
       <div className="text-white py-12">
-        <div className="container mx-auto px-6">
-        </div>
+        <div className="container mx-auto px-6"></div>
       </div>
 
       {/* Programs List */}

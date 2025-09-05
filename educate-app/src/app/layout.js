@@ -14,7 +14,8 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "EDUCATE - Changing Education Forever",
-  description: "Practical education that gives you all the tools you need to thrive in the digital age.",
+  description:
+    "Practical education that gives you all the tools you need to thrive in the digital age.",
 };
 
 export default function RootLayout({ children }) {
@@ -23,7 +24,7 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Navbar/>
+        <Navbar />
         {children}
       </body>
     </html>
